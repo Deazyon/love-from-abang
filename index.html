@@ -17,6 +17,7 @@
       margin: 0;
       text-align: center;
       padding: 20px;
+      overflow: hidden;
     }
 
     .love-icon {
@@ -70,13 +71,13 @@
       pointer-events: none;
       user-select: none;
       opacity: 0.8;
-    } 
+    }
 
     @keyframes fall {
       to {
         transform: translateY(110vh);
         opacity: 0;
-      } 
+      }
     }
   </style>
 </head>
@@ -86,8 +87,8 @@
   <div id="message" class="message"></div>
   <button id="loveBtn" class="love-btn">Tekan ini De...!!</button>
 
-  <audio id="bgmusic" autoplay loop>
-    <source src="lagu.mp3" type="audio/mpeg">
+  <audio id="bgmusic" loop>
+    <source src="assets/angelbaby.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -101,14 +102,16 @@
       "Tapi kamu sudah sejauh ini, itu luar biasa ko.........",
       "Nggak apa-apa kalau capek, istirahat sebentar juga nggak salah..........",
       "Yang penting... jangan berhenti ya, pelan juga nggak apa.",
-      "A di sini. Selalu. Untuk kamu.",
-      "TETAP SEMANGAT YA!!! 💖"
+      "Aa di sini. Selalu. Untuk kalian.",
+      "TETAP SEMANGAT YA!!! 💖",
+      "FROM Aa Aji :)"
     ];
 
     let current = 0;
     const msgBox = document.getElementById("message");
     const btn = document.getElementById("loveBtn");
     const love = document.getElementById("love");
+    const audio = document.getElementById("bgmusic");
 
     function typeWriterEffect(text, callback) {
       let i = 0;
@@ -139,27 +142,24 @@
         heart.classList.add('heart');
         heart.textContent = '❤️';
         heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = (Math.random() * 2 + 3) + 's'; // 3-5s
-
+        heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
         document.body.appendChild(heart);
-
         setTimeout(() => {
           heart.remove();
         }, 6000);
       }, 200);
 
-      // Stop after 8 detik
       setTimeout(() => clearInterval(interval), 8000);
     }
 
-
     btn.addEventListener("click", () => {
+      audio.play().catch(err => console.warn("Autoplay gagal: ", err)); // Mulai musik
       btn.style.display = "none";
       love.classList.add("hide");
       setTimeout(() => {
         love.style.display = "none";
         showNextMessage();
-      }, 600); // tunggu animasi hilang
+      }, 600);
     });
   </script>
 
