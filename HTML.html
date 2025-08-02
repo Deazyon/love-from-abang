@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Sister</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fbc2eb, #a6c1ee);
+      font-family: 'Quicksand', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .love-icon {
+      font-size: 6em;
+      margin-bottom: 20px;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .love-icon.hide {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    .message {
+      font-size: 1.6em;
+      margin: 30px 0;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.8s ease;
+      min-height: 60px;
+      white-space: pre-wrap;
+    }
+
+    .message.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .love-btn {
+      padding: 15px 35px;
+      font-size: 1.2em;
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .love-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 24px;
+      animation: fall linear forwards;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.8;
+    } 
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      } 
+    }
+  </style>
+</head>
+<body>
+
+  <div class="love-icon" id="love">❤️</div>
+  <div id="message" class="message"></div>
+  <button id="loveBtn" class="love-btn">Tekan ini De...!!</button>
+
+  <audio id="bgmusic" autoplay loop>
+    <source src="lagu.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const messages = [
+      "gimana kabarnya de.......bentar ya, Aa mau bilang sesuatu.",
+      "Boleh ya, dibaca pelan-pelan... jangan buru-buru.... ditunggu aja sebentar doang 3 detik ;)",
+      "3...",
+      "2...",
+      "1...",
+      "Aa tahu... akhir-akhir ini nggak selalu mudah ya..........",
+      "Tapi kamu sudah sejauh ini, itu luar biasa ko.........",
+      "Nggak apa-apa kalau capek, istirahat sebentar juga nggak salah..........",
+      "Yang penting... jangan berhenti ya, pelan juga nggak apa.",
+      "A di sini. Selalu. Untuk kamu.",
+      "TETAP SEMANGAT YA!!! 💖"
+    ];
+
+    let current = 0;
+    const msgBox = document.getElementById("message");
+    const btn = document.getElementById("loveBtn");
+    const love = document.getElementById("love");
+
+    function typeWriterEffect(text, callback) {
+      let i = 0;
+      msgBox.textContent = "";
+      msgBox.classList.add("visible");
+
+      const typing = setInterval(() => {
+        msgBox.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) {
+          clearInterval(typing);
+          if (callback) setTimeout(callback, 1400);
+          if (current === messages.length) startLoveRain();
+        }
+      }, 50);
+    }
+
+    function showNextMessage() {
+      if (current < messages.length) {
+        typeWriterEffect(messages[current], showNextMessage);
+        current++;
+      }
+    }
+
+    function startLoveRain() {
+      const interval = setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.textContent = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 2 + 3) + 's'; // 3-5s
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 6000);
+      }, 200);
+
+      // Stop after 8 detik
+      setTimeout(() => clearInterval(interval), 8000);
+    }
+
+
+    btn.addEventListener("click", () => {
+      btn.style.display = "none";
+      love.classList.add("hide");
+      setTimeout(() => {
+        love.style.display = "none";
+        showNextMessage();
+      }, 600); // tunggu animasi hilang
+    });
+  </script>
+
+</body>
+</html>
